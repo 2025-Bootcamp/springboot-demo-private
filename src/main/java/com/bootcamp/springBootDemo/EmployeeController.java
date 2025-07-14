@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employees")
@@ -34,10 +35,44 @@ public class EmployeeController {
         return employees.get(id);
     }
 
-    @GetMapping
+    @GetMapping(params = {"gender"})
     public List<Employee> getByGender(@RequestParam("gender") String genderParam) {
         Gender gender = Gender.valueOf(genderParam.toUpperCase());
         return employees.values().stream().filter(employee -> employee.getGender().equals(gender))
+                .toList();
+    }
+
+    @GetMapping
+    public List<Employee> getAll() {
+        return employees.values().stream().toList();
+    }
+
+    @PutMapping("/{id}")
+    public Employee update(@PathVariable Long id, @RequestBody Employee request) {
+        //get original employee
+        Employee preEmployee = employees.get(id);
+        if (preEmployee == null) {
+            return null;
+        }
+        String name = request.getName() == null ? preEmployee.getName() : request.getName();
+        Integer age = request.getAge() == null ? preEmployee.getAge() : request.getAge();
+        Gender gender = request.getGender() == null ? preEmployee.getGender() : request.getGender();
+        Double salary = request.getSalary() == null ? preEmployee.getSalary() : request.getSalary();
+        Employee newEmployee = new Employee(id, name, age, gender, salary);
+        Employee employeeToUpdate = employees.replace(id, newEmployee);
+        return employeeToUpdate;
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) {
+        employees.remove(id);
+    }
+
+    @GetMapping(params = {"pageNumber", "pageSize"})
+    public List<Employee> getAllByPageSize(@RequestParam Integer pageNumber,
+                                           @RequestParam Integer pageSize) {
+        return employees.values().stream().skip((long) (pageNumber - 1) * pageSize).limit(pageSize)
                 .toList();
     }
 }
