@@ -1,5 +1,8 @@
-package com.bootcamp.springBootDemo;
+package com.bootcamp.springBootDemo.controller;
 
+import com.bootcamp.springBootDemo.model.Company;
+import com.bootcamp.springBootDemo.model.Employee;
+import com.bootcamp.springBootDemo.model.Gender;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

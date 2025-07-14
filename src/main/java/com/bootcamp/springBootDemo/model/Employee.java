@@ -1,8 +1,9 @@
-package com.bootcamp.springBootDemo;
+package com.bootcamp.springBootDemo.model;
 
 public class Employee {
 
     private int id;
+    private Integer id;
     private String name;
     private Integer age;
     private Gender gender;
@@ -11,7 +12,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String name, Integer age, Gender gender, Double salary) {
+    public Employee(Integer id, String name, Integer age, Gender gender, Double salary) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -19,11 +20,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

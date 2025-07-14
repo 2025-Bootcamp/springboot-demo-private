@@ -1,4 +1,4 @@
-package com.bootcamp.springBootDemo;
+package com.bootcamp.springBootDemo.model;
 
 public enum Gender {
     MALE,

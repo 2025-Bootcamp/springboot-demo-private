@@ -1,4 +1,4 @@
-package com.bootcamp.springBootDemo;
+package com.bootcamp.springBootDemo.model;
 
 import java.util.ArrayList;
 import java.util.List;
