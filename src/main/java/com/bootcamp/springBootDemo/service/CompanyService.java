@@ -2,6 +2,7 @@ package com.bootcamp.springBootDemo.service;
 
 import com.bootcamp.springBootDemo.model.Company;
 import com.bootcamp.springBootDemo.model.Employee;
+import com.bootcamp.springBootDemo.repository.CompanyDBRepository;
 import com.bootcamp.springBootDemo.repository.CompanyRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,8 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
 
-    public CompanyService(CompanyRepository companyRepository) {
-        this.companyRepository = companyRepository;
+    public CompanyService(CompanyDBRepository companyDBRepository) {
+        this.companyRepository = companyDBRepository;
     }
 
     public Company getCompanyById(Integer id) {

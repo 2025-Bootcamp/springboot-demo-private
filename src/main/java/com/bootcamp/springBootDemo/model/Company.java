@@ -1,13 +1,21 @@
 package com.bootcamp.springBootDemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "companies")
 public class Company {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private List<Employee> employees = new ArrayList<>();
+
+//    private List<Employee>
 
     public Company() {
     }
@@ -15,12 +23,6 @@ public class Company {
     public Company(Integer id, String name) {
         this.id = id;
         this.name = name;
-    }
-
-    public Company(Integer id, String name, List<Employee> employees) {
-        this.id = id;
-        this.name = name;
-        this.employees = employees;
     }
 
     public Integer getId() {
@@ -37,13 +39,5 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
     }
 }
