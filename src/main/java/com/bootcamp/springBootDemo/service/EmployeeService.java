@@ -5,6 +5,8 @@ import com.bootcamp.springBootDemo.exception.InvalidEmployeeException;
 import com.bootcamp.springBootDemo.exception.NotFoundException;
 import com.bootcamp.springBootDemo.model.Employee;
 import com.bootcamp.springBootDemo.model.Gender;
+import com.bootcamp.springBootDemo.repository.EmployeeDBRepository;
+import com.bootcamp.springBootDemo.repository.EmployeeInMemoryRepository;
 import com.bootcamp.springBootDemo.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +17,8 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeService(EmployeeDBRepository employeeDBRepository) {
+        this.employeeRepository = employeeDBRepository;
     }
 
     public Employee saveEmployee(Employee employee) {

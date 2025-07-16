@@ -1,12 +1,24 @@
 package com.bootcamp.springBootDemo.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "employees")
 public class Employee {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
+
     private Integer age;
+
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
     private Double salary;
+
     private Boolean active = true;
 
 

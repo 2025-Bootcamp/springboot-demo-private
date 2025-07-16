@@ -2,7 +2,7 @@ package com.bootcamp.springBootDemo.integration;
 
 import com.bootcamp.springBootDemo.model.Employee;
 import com.bootcamp.springBootDemo.model.Gender;
-import com.bootcamp.springBootDemo.repository.EmployeeRepository;
+import com.bootcamp.springBootDemo.repository.EmployeeInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +23,22 @@ public class EmployeeControllerTest {
     private MockMvc client;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeInMemoryRepository employeeInMemoryRepository;
 
     @BeforeEach
     public void setup() {
-        employeeRepository.getAll().clear();
-        employeeRepository.save(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
-        employeeRepository.save(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
-        employeeRepository.save(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
-        employeeRepository.save(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
-        employeeRepository.save(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
+        employeeInMemoryRepository.getAll().clear();
+        employeeInMemoryRepository.save(new Employee(1, "John Smith", 32, Gender.MALE, 5000.0));
+        employeeInMemoryRepository.save(new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0));
+        employeeInMemoryRepository.save(new Employee(3, "David Williams", 35, Gender.MALE, 5500.0));
+        employeeInMemoryRepository.save(new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0));
+        employeeInMemoryRepository.save(new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0));
     }
 
     @Test
     public void should_return_employees_when_get_all_employees_exist() throws Exception {
         // given
-        List<Employee> givenEmployees = employeeRepository.getAll();
+        List<Employee> givenEmployees = employeeInMemoryRepository.getAll();
 
         // when
         ResultActions perform = client.perform(MockMvcRequestBuilders.get("/employees"));

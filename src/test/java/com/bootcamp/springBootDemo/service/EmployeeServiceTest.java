@@ -5,7 +5,7 @@ import com.bootcamp.springBootDemo.exception.InvalidEmployeeException;
 import com.bootcamp.springBootDemo.exception.NotFoundException;
 import com.bootcamp.springBootDemo.model.Employee;
 import com.bootcamp.springBootDemo.model.Gender;
-import com.bootcamp.springBootDemo.repository.EmployeeRepository;
+import com.bootcamp.springBootDemo.repository.EmployeeInMemoryRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 public class EmployeeServiceTest {
 
     @Mock
-    EmployeeRepository employeeRepository;
+    EmployeeInMemoryRepository employeeInMemoryRepository;
 
     @InjectMocks
     EmployeeService employeeService;
@@ -59,7 +59,7 @@ public class EmployeeServiceTest {
     public void should_create_employee_successfully_when_valid() {
         // given
         Employee employee = new Employee(null, "valid", 33, Gender.MALE, 30000.0);
-        when(employeeRepository.save(employee)).thenReturn(employee);
+        when(employeeInMemoryRepository.save(employee)).thenReturn(employee);
         
         // when
         Employee savedEmployee = employeeService.saveEmployee(employee);
@@ -75,7 +75,7 @@ public class EmployeeServiceTest {
         Employee employee = new Employee(null, "activeCheck", 33, Gender.MALE, 30000.0);
 
         //when
-        when(employeeRepository.save(employee)).thenAnswer(invocation -> {
+        when(employeeInMemoryRepository.save(employee)).thenAnswer(invocation -> {
               Employee e = (Employee) invocation.getArguments()[0];
               assertTrue(e.getActive());
             return employee;
@@ -88,7 +88,7 @@ public class EmployeeServiceTest {
         // given
         Employee employee = new Employee(1, "ToBeDeleted", 32, Gender.MALE, 25000.0);
         employee.setActive(true);
-        when(employeeRepository.getById(1)).thenReturn(employee);
+        when(employeeInMemoryRepository.getById(1)).thenReturn(employee);
 
         // when
         employeeService.deleteEmployeeById(1);
@@ -102,7 +102,7 @@ public class EmployeeServiceTest {
         // given
         Employee employee = new Employee(1, "InactiveEmp", 40, Gender.FEMALE, 26000.0);
         employee.setActive(false);
-        when(employeeRepository.getById(1)).thenReturn(employee);
+        when(employeeInMemoryRepository.getById(1)).thenReturn(employee);
 
         Employee update = new Employee(null, "NewName", 40, Gender.FEMALE, 26000.0);
 
@@ -118,7 +118,7 @@ public class EmployeeServiceTest {
         // given
         Employee employee = new Employee(1, "non-exist", 40, Gender.FEMALE, 26000.0);
         employee.setActive(false);
-        when(employeeRepository.getById(1)).thenReturn(employee);
+        when(employeeInMemoryRepository.getById(1)).thenReturn(employee);
 
         Employee update = new Employee(null, "NewName", 40, Gender.FEMALE, 26000.0);
 
@@ -135,8 +135,8 @@ public class EmployeeServiceTest {
         Employee oldEmp = new Employee(1, "OldName", 29, Gender.MALE, 25000.0);
         oldEmp.setActive(true);
 
-        when(employeeRepository.getById(1)).thenReturn(oldEmp);
-        when(employeeRepository.update(any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(employeeInMemoryRepository.getById(1)).thenReturn(oldEmp);
+        when(employeeInMemoryRepository.update(any())).thenAnswer(invocation -> invocation.getArgument(0));
 
         Employee update = new Employee(null, "NewName", 29, Gender.MALE, 25000.0);
         Employee result = employeeService.updateEmployee(1, update);
