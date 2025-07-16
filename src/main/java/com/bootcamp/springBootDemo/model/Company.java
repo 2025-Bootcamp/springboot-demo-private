@@ -1,9 +1,8 @@
 package com.bootcamp.springBootDemo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,7 +14,9 @@ public class Company {
     private Integer id;
     private String name;
 
-//    private List<Employee>
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Employee> employees;
 
     public Company() {
     }
@@ -39,5 +40,13 @@ public class Company {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
     }
 }

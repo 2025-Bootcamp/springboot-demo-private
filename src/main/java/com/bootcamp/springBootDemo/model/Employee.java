@@ -1,5 +1,6 @@
 package com.bootcamp.springBootDemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -21,6 +22,10 @@ public class Employee {
 
     private Boolean active = true;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    @JsonIgnoreProperties("employees")
+    private Company company;
 
     public Employee() {
     }
@@ -31,6 +36,16 @@ public class Employee {
         this.age = age;
         this.gender = gender;
         this.salary = salary;
+    }
+
+    public Employee(Integer id, String name, Integer age, Gender gender, Double salary, Boolean active, Company company) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.active = active;
+        this.company = company;
     }
 
     public Integer getId() {
@@ -79,5 +94,13 @@ public class Employee {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }
