@@ -2,7 +2,6 @@ package com.bootcamp.springBootDemo.model;
 
 public class Employee {
 
-    private int id;
     private Integer id;
     private String name;
     private Integer age;
