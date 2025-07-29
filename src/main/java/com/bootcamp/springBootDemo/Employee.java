@@ -2,13 +2,13 @@ package com.bootcamp.springBootDemo;
 
 public class Employee {
 
-    private Long id;
+    private int id;
     private String name;
     private Integer age;
     private Gender gender;
     private Double salary;
 
-    public Employee(Long id, String name, Integer age, Gender gender, Double salary) {
+    public Employee(int id, String name, Integer age, Gender gender, Double salary) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -16,11 +16,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
