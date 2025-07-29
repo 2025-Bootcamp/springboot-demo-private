@@ -1,20 +1,11 @@
-# 📘 Spring Boot RESTful Employee API
+# 🧪 Spring Boot Demo: Create a RESTful API
 
-This demo project showcases how to build a simple RESTful API using **Spring Boot**. It demonstrates how to:
+This project demonstrates how to build a simple RESTful API using Spring Boot. It covers:
 
-* Create a basic Spring Boot project
-* Define a simple `Employee` model
-* Use `@RestController` to expose RESTful endpoints
-* Handle basic HTTP methods like `POST` and `GET`
-* Use `@RequestParam`, `@PathVariable`, and `@RequestBody`
-
-## 🚀 Technologies Used
-
-* Java 17+
-* Spring Boot 3+
-* Maven
-
----
+* Creating a Spring Boot project
+* Defining model classes
+* Implementing a REST controller
+* Handling HTTP requests (POST, GET, PUT, DELETE)
 
 ## ✨ Goal
 
@@ -32,40 +23,13 @@ src/main/java/com/bootcamp/springBootDemo
 
 ## 🧑‍💻 Step-by-step Implementation
 
-```
-
 ### 2️⃣ Employee.java - Model Class
 
 ```java
 package com.bootcamp.springBootDemo;
 
 public class Employee {
-
-    private int id;
-    private String name;
-    private Integer age;
-    private Gender gender;
-    private Double salary;
-
-    public Employee(int id, String name, Integer age, Gender gender, Double salary) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.salary = salary;
-    }
-
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public Integer getAge() { return age; }
-    public void setAge(Integer age) { this.age = age; }
-    public Gender getGender() { return gender; }
-    public void setGender(Gender gender) { this.gender = gender; }
-    public Double getSalary() { return salary; }
-    public void setSalary(Double salary) { this.salary = salary; }
+//    ...
 }
 ```
 
@@ -95,6 +59,7 @@ import java.util.Map;
 @RequestMapping("/employees")
 public class EmployeeController {
 
+    //    using memory to host the data
     private final Map<Integer, Employee> employees = new HashMap<>(Map.of(
             1, new Employee(1, "John Smith", 32, Gender.MALE, 5000.0),
             2, new Employee(2, "Jane Johnson", 28, Gender.FEMALE, 6000.0),
@@ -102,173 +67,79 @@ public class EmployeeController {
             4, new Employee(4, "Emily Brown", 23, Gender.FEMALE, 4500.0),
             5, new Employee(5, "Michael Jones", 40, Gender.MALE, 7000.0)));
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Employee create(@RequestBody Employee request) {
-        int id = employees.size() + 1;
-        Employee newEmployee = new Employee(id, request.getName(), request.getAge(), request.getGender(),
-                request.getSalary());
-        employees.put(id, newEmployee);
-        return newEmployee;
-    }
-
-    @GetMapping("/{id}")
-    public Employee getById(@PathVariable Long id) {
-        return employees.get(id);
-    }
-
     @GetMapping
-    public List<Employee> getByGender(@RequestParam("gender") String genderParam) {
-        Gender gender = Gender.valueOf(genderParam.toUpperCase());
-        return employees.values().stream().filter(employee -> employee.getGender().equals(gender))
+    public List<Employee> getAll() {
+        return employees.values().stream().toList();
+    }
+
+    @PutMapping("/{id}")
+    public Employee update(@PathVariable int id, @RequestBody Employee request) {
+        //get original employee
+        Employee preEmployee = employees.get(id);
+        if (preEmployee == null) {
+            return null;
+        }
+        String name = request.getName() == null ? preEmployee.getName() : request.getName();
+        Integer age = request.getAge() == null ? preEmployee.getAge() : request.getAge();
+        Gender gender = request.getGender() == null ? preEmployee.getGender() : request.getGender();
+        Double salary = request.getSalary() == null ? preEmployee.getSalary() : request.getSalary();
+        Employee newEmployee = new Employee(id, name, age, gender, salary);
+        return employees.replace(id, newEmployee);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Integer id) {
+        employees.remove(id);
+    }
+
+    @GetMapping(params = {"pageNumber", "pageSize"})
+    public List<Employee> getAllByPageSize(@RequestParam Integer pageNumber,
+                                           @RequestParam Integer pageSize) {
+        return employees.values().stream().skip((long) (pageNumber - 1) * pageSize).limit(pageSize)
                 .toList();
     }
 }
 ```
 
-## 📬 API Usage Examples
+## 📬 API Usage Examples (Step 2)
 
-### ➕ Create Employee
+### 📄 Get All Employees
 
 ```
-POST /employees
+GET /employees
+```
+
+### 📝 Update Employee
+
+```
+PUT /employees/1
 Content-Type: application/json
 
 {
-  "name": "Alice",
-  "age": 30,
-  "gender": "FEMALE",
-  "salary": 5800
+  "age": 36,
+  "salary": 6200
 }
 ```
 
-### 🔍 Get Employee by ID
+### ❌ Delete Employee
 
 ```
-GET /employees/1
+DELETE /employees/1
 ```
 
-### 🧑‍🤝‍🧑 Get Employees by Gender
+### 📃 Paginated Query
 
 ```
-GET /employees?gender=male
+GET /employees?page=1&size=5
 ```
 
 ## ✅ Run the Application
 
 ```
-Run SpringBootDemoApplication
+mvn spring-boot:run
 ```
 
 ---
 
-## 🌐 API Endpoints
-
-### ➕ POST `/employees`
-
-Create a new employee.
-
-**Request Body:**
-
-```json
-{
-  "name": "Alice",
-  "age": 30,
-  "gender": "FEMALE",
-  "salary": 6000.0
-}
-```
-
-**Response:**
-
-```json
-{
-  "id": 6,
-  "name": "Alice",
-  "age": 30,
-  "gender": "FEMALE",
-  "salary": 6000.0
-}
-```
-
----
-
-### 🔍 GET `/employees/{id}`
-
-Get employee by ID.
-
-**Example:**
-
-```
-GET /employees/1
-```
-
-**Response:**
-
-```json
-{
-  "id": 1,
-  "name": "John Smith",
-  "age": 32,
-  "gender": "MALE",
-  "salary": 5000.0
-}
-```
-
----
-
-### 📋 GET `/employees?gender=male`
-
-Get all employees by gender.
-
-**Example:**
-
-```
-GET /employees?gender=male
-```
-
-**Response:**
-
-```json
-[
-  {
-    "id": 1,
-    "name": "John Smith",
-    "age": 32,
-    "gender": "MALE",
-    "salary": 5000.0
-  },
-  ...
-]
-```
-
----
-
-## 📁 Folder Structure
-
-```
-src
-└── main
-    └── java
-        └── com.bootcamp.springBootDemo
-            ├── Employee.java
-            ├── EmployeeController.java
-            └── Gender.java
-```
-
-## ✅ Next Steps
-
-* Add `PUT` and `DELETE` endpoints
-* Add persistence using Spring Data JPA and a database (e.g., H2/MySQL)
-* Implement global exception handling
-
----
-
-## 🧑‍🏫 For Trainers
-
-This is an ideal starting point for teaching trainees how to:
-
-* Create Spring Boot projects
-* Build REST APIs
-* Understand Java annotations and HTTP mapping
-
+This example provides a clean and simple starting point for teaching REST APIs in Spring Boot. ✅

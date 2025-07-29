@@ -48,7 +48,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public Employee update(@PathVariable Long id, @RequestBody Employee request) {
+    public Employee update(@PathVariable int id, @RequestBody Employee request) {
         //get original employee
         Employee preEmployee = employees.get(id);
         if (preEmployee == null) {
@@ -59,13 +59,12 @@ public class EmployeeController {
         Gender gender = request.getGender() == null ? preEmployee.getGender() : request.getGender();
         Double salary = request.getSalary() == null ? preEmployee.getSalary() : request.getSalary();
         Employee newEmployee = new Employee(id, name, age, gender, salary);
-        Employee employeeToUpdate = employees.replace(id, newEmployee);
-        return employeeToUpdate;
+        return employees.replace(id, newEmployee);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Integer id) {
         employees.remove(id);
     }
 
