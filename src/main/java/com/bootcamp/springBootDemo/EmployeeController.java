@@ -36,7 +36,7 @@ public class EmployeeController {
 
     @GetMapping(params = {"gender"})
     public List<Employee> getByGender(@RequestParam("gender") String genderParam) {
-        if (StringUtils.hasLength(StringUtils.trimAllWhitespace(genderParam))) {
+        if (genderParam == null || genderParam.trim().isEmpty()) {
             return new ArrayList<>(employees.values());
         }
         Gender gender = Gender.valueOf(genderParam.toUpperCase());
