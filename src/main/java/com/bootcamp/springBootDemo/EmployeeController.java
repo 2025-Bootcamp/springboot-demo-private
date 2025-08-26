@@ -1,11 +1,10 @@
 package com.bootcamp.springBootDemo;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -37,6 +36,9 @@ public class EmployeeController {
 
     @GetMapping(params = {"gender"})
     public List<Employee> getByGender(@RequestParam("gender") String genderParam) {
+        if (StringUtils.hasLength(StringUtils.trimAllWhitespace(genderParam))) {
+            return new ArrayList<>(employees.values());
+        }
         Gender gender = Gender.valueOf(genderParam.toUpperCase());
         return employees.values().stream().filter(employee -> employee.getGender().equals(gender))
                 .toList();
