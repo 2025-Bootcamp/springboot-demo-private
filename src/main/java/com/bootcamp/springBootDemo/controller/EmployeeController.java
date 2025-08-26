@@ -31,6 +31,9 @@ public class EmployeeController {
 
     @GetMapping(params = {"gender"})
     public List<Employee> getByGender(@RequestParam("gender") String genderParam) {
+        if (genderParam == null || genderParam.isBlank()) {
+            return employeeService.getAllEmployee();
+        }
         Gender gender = Gender.valueOf(genderParam.toUpperCase());
         return employeeService.getEmployeeByGender(gender);
     }
