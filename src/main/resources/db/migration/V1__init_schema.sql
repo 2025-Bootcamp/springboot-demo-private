@@ -1,19 +1,18 @@
-CREATE TABLE IF NOT EXISTS employee
+CREATE TABLE employee
 (
-    id         BIGINT  NOT NULL AUTO_INCREMENT,
+    id         BIGINT NOT NULL AUTO_INCREMENT,
     name       VARCHAR(255),
     age        INTEGER,
     gender     VARCHAR(255),
     salary     FLOAT(53),
-    active     BOOLEAN NOT NULL DEFAULT TRUE,
     company_id BIGINT,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE companies
+
+CREATE TABLE company
 (
     id   BIGINT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255),
     PRIMARY KEY (id)
-)
-
+);

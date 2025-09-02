@@ -1,0 +1,2 @@
+ALTER TABLE employee ADD COLUMN active TINYINT(1) DEFAULT 1;
+

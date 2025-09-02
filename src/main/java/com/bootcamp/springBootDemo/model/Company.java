@@ -16,7 +16,7 @@ public class Company {
 
 //    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     @OneToMany(orphanRemoval = true)
-    @JoinColumn(name = "companyId")
+    @JoinColumn(name = "company_id")
 //    @JsonManagedReference
     private List<Employee> employees;
 
