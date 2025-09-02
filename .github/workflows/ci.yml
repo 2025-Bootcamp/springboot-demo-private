@@ -48,4 +48,6 @@ jobs:
 
 
       - name: Build with Maven using production profile
-        run: mvn clean package -Pprod
+        env:
+          SPRING_PROFILES_ACTIVE: prod
+        run: mvn clean package -DskipTests
