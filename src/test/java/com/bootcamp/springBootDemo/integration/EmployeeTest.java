@@ -4,7 +4,6 @@ import com.bootcamp.springBootDemo.model.Employee;
 import com.bootcamp.springBootDemo.model.Gender;
 import com.bootcamp.springBootDemo.repository.EmployeeInMemoryRepository;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -19,7 +18,6 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Disabled
 public class EmployeeTest {
 
     @Autowired
