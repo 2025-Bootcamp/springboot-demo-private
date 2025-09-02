@@ -41,12 +41,16 @@ jobs:
           echo "SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }}" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }}" >> $GITHUB_ENV
 
+      - name: Run tests
+        env:
+          SPRING_PROFILES_ACTIVE: prod
+        run: mvn clean test
+
       - name: analyze with SonarQube
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SPRING_PROFILES_ACTIVE: prod
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=2025-Bootcamp_springboot-demo-private -DskipTests
-
 
       - name: Build with Maven using production profile
         env:
